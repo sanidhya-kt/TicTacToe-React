@@ -1,0 +1,114 @@
+import { useState } from "react";
+import Square from "./square";
+
+const Board = () => {
+  const [state, setState] = useState(Array(9).fill(null));
+  const [isXTurn, setIsXTurn] = useState(true);
+
+  const checkWinner = () => {
+    const winnerLogic = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let logic of winnerLogic) {
+      const [a, b, c] = logic;
+      if (state[a] !== null && state[a] === state[b] && state[a] === state[c]) {
+        return state[a];
+      }
+    }
+    return false;
+  };
+
+  const isWinner = checkWinner();
+
+  const handlesState = (index) => {
+    const copyState = [...state];
+    copyState[index] = isXTurn ? "X" : "O";
+    setState(copyState);
+    setIsXTurn(!isXTurn);
+  };
+  return (
+    <span>
+      <h5 id="title">Tic Tac Toe</h5>
+      <div className="board-container">
+        {isWinner ? (
+          <>
+            <h4>Congratulation {isWinner} won the game</h4>
+          </>
+        ) : (
+          <>
+            {" "}
+            <div className="board-row">
+              <Square
+                onClick={() => {
+                  handlesState(0);
+                }}
+                value={state[0]}
+              />
+              <Square
+                onClick={() => {
+                  handlesState(1);
+                }}
+                value={state[1]}
+              />
+              <Square
+                onClick={() => {
+                  handlesState(2);
+                }}
+                value={state[2]}
+              />
+            </div>
+            <div className="board-row">
+              <Square
+                onClick={() => {
+                  handlesState(3);
+                }}
+                value={state[3]}
+              />
+              <Square
+                onClick={() => {
+                  handlesState(4);
+                }}
+                value={state[4]}
+              />
+              <Square
+                onClick={() => {
+                  handlesState(5);
+                }}
+                value={state[5]}
+              />
+            </div>
+            <div className="board-row">
+              <Square
+                onClick={() => {
+                  handlesState(6);
+                }}
+                value={state[6]}
+              />
+              <Square
+                onClick={() => {
+                  handlesState(7);
+                }}
+                value={state[7]}
+              />
+              <Square
+                onClick={() => {
+                  handlesState(8);
+                }}
+                value={state[8]}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </span>
+  );
+};
+
+export default Board;
